@@ -2,7 +2,7 @@
 
 # **/ - matches any count of subdirectories (including current)
 
-# example: data/**/*.json record will ignore data/1.py, data/subfolder/2.py, data/../../3.p
+# example: data/**/*.py record will ignore data/1.py, data/subfolder/2.py, data/../../3.py
 
 # dependencies
 **/__pycache__
