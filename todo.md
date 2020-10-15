@@ -10,7 +10,10 @@ Tweets
    
     -> delete
     -> share
+        -> read only serializer
+        -> create only serializer
     -> like
+        -> unlike
     
     
 Users
