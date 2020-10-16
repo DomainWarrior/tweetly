@@ -1,25 +1,31 @@
 import React, {useEffect, useState}  from 'react'
 
-import {createTweet, loadTweets} from '../lookup'
+import {
+    apiTweetCreate,
+    apiTweetList,
+    apiTweetAction} from './lookup'
 
 export function TweetsComponent(props) {
     const textAreaRef = React.createRef()
     const [newTweets, setNewTweets] = useState([])
+
+    const handleBackendUpdate = (response, status) =>{
+      // backend api response handler
+      let tempNewTweets = [...newTweets]
+      if (status === 201){
+        tempNewTweets.unshift(response)
+        setNewTweets(tempNewTweets)
+      } else {
+        console.log(response)
+        alert("An error occurred please try again")
+      }
+    }
+
     const handleSubmit = (event) => {
       event.preventDefault()
       const newVal = textAreaRef.current.value
-      let tempNewTweets = [...newTweets]
-      // change this to a server side call
-      createTweet(newVal, (response, status)=>{
-        if (status === 201){
-          tempNewTweets.unshift(response)
-        } else {
-          console.log(response)
-          alert("An error occured please try again")
-        }
-      })
-
-      setNewTweets(tempNewTweets)
+      // backend api request
+      apiTweetCreate(newVal, handleBackendUpdate)
       textAreaRef.current.value = ''
     }
     return <div className={props.className}>
@@ -48,7 +54,7 @@ export function TweetsList(props) {
 
     useEffect(() => {
       if (tweetsDidSet === false){
-        const myCallback = (response, status) => {
+        const handleTweetListLookup = (response, status) => {
           if (status === 200){
             setTweetsInit(response)
             setTweetsDidSet(true)
@@ -56,7 +62,7 @@ export function TweetsList(props) {
             alert("There was an error")
           }
         }
-        loadTweets(myCallback)
+        apiTweetList(handleTweetListLookup)
       }
     }, [tweetsInit, tweetsDidSet, setTweetsDidSet])
     return tweets.map((item, index)=>{
@@ -68,37 +74,34 @@ export function TweetsList(props) {
 export function ActionBtn(props) {
     const {tweet, action} = props
     const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0)
-    const [userLike, setUserLike] = useState(tweet.userLike === true ? true : false)
+    // const [userLike, setUserLike] = useState(tweet.userLike === true ? true : false)
     const className = props.className ? props.className : 'btn btn-primary btn-sm'
     const actionDisplay = action.display ? action.display : 'Action'
 
-    const handleClick = (event) => {
-      event.preventDefault()
-      if (action.type === 'like') {
-        if (userLike === true) {
-          // perhaps i Unlike it?
-          setLikes(likes - 1)
-          setUserLike(false)
-        } else {
-          setLikes(likes + 1)
-          setUserLike(true)
+    const handleActionBackendEvent = (response, status) => {
+        console.log(status, response)
+        if (status === 200) {
+            setLikes(response.likes)
+            // setUserLike(true)
         }
-
-      }
     }
-    const display = action.type === 'like' ? `${likes} ${actionDisplay}` : actionDisplay
-    return <button className={className} onClick={handleClick}>{display}</button>
-  }
+        const handleClick = (event) => {
+            event.preventDefault()
+            apiTweetAction(tweet.id, action.type, handleActionBackendEvent)
+        }
+        const display = action.type === 'like' ? `${likes} ${actionDisplay}` : actionDisplay
+        return <button className={className} onClick={handleClick}>{display}</button>
+    }
 
-export function Tweet(props) {
-    const {tweet} = props
-    const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
-    return <div className={className}>
-        <p>{tweet.id} - {tweet.content}</p>
-        <div className='btn btn-group'>
-          <ActionBtn tweet={tweet} action={{type: "like", display:"Likes"}}/>
-          <ActionBtn tweet={tweet} action={{type: "unlike", display:"Unlike"}}/>
-          <ActionBtn tweet={tweet} action={{type: "retweet", display:""}}/>
+ export function Tweet(props) {
+        const {tweet} = props
+        const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
+        return <div className={className}>
+            <p>{tweet.id} - {tweet.content}</p>
+            <div className='btn btn-group'>
+                <ActionBtn tweet={tweet} action={{type: "like", display: "Likes"}}/>
+                <ActionBtn tweet={tweet} action={{type: "unlike", display: "Unlike"}}/>
+                <ActionBtn tweet={tweet} action={{type: "retweet", display: "Retweet"}}/>
+            </div>
         </div>
-    </div>
-  }
+    }

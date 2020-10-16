@@ -24,8 +24,9 @@ SECRET_KEY = '0gl09+jl#c%x!vme!oc2u*_kcgl+f=86x7h+3d535%b)8fm(at'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 LOGIN_URl = "/login"
+
 
 MAX_TWEET_LENGTH = 240
 TWEET_ACTION_OPTIONS = ["like", "unlike", "retweet"]
@@ -134,14 +135,18 @@ DEFAULT_RENDERER_CLASSES = [
     'rest_framework.renderers.JSONRenderer',
 ]
 
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.SessionAuthentication'
+]
 if DEBUG:
     DEFAULT_RENDERER_CLASSES += [
         'rest_framework.renderers.BrowsableAPIRenderer',
     ]
+    DEFAULT_AUTHENTICATION_CLASSES += [
+        'djangoProject.rest_api.dev.DevAuthentication'
+    ]
 REST_FRAMEWORK = {
 
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication'
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
     'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
 }

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from .forms import TweetForm
 from .models import Tweet
 from .serializers import (
-    TweetSerializer, 
+    TweetSerializer,
     TweetActionSerializer,
     TweetCreateSerializer
 )
@@ -30,7 +30,7 @@ def home_view(request, *args, **kwargs):
 # @authentication_classes([SessionAuthentication, MyCustomAuth])
 @permission_classes([IsAuthenticated]) # REST API course
 def tweet_create_view(request, *args, **kwargs):
-    serializer = TweetCreateSerializer(data=request.POST)
+    serializer = TweetCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
         return Response(serializer.data, status=201)
@@ -85,7 +85,7 @@ def tweet_action_view(request, *args, **kwargs):
             return Response(serializer.data, status=200)
         elif action == "retweet":
             new_tweet = Tweet.objects.create(
-                    user=request.user, 
+                    user=request.user,
                     parent=obj,
                     content=content,
                     )

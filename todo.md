@@ -1,5 +1,11 @@
-Short term todos
+Debugging todo! 
 
+    -> Find the usestate empty clause and fix the 
+    constant fetch of url (api/tweets)
+     -> find the backendLookup variables and double check
+    
+    
+   Short term todos
 Tweets
  
     -> creating
@@ -50,3 +56,4 @@ LONG TERM TODOS:
     -> explore/ finding hashtags / other users
 
 
+===================

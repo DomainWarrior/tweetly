@@ -11,8 +11,8 @@ User = get_user_model()
 
 class TweetTestCase(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='yourdestinyis', password='somepassword')
-        self.userb = User.objects.create_user(username='newcomer', password='somepassword2')
+        self.user = User.objects.create_user(username='cfe', password='somepassword')
+        self.userb = User.objects.create_user(username='cfe-2', password='somepassword2')
         Tweet.objects.create(content="my first tweet",
                              user=self.user)
         Tweet.objects.create(content="my first tweet",
