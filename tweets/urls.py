@@ -1,14 +1,14 @@
-  
 from django.urls import path
 
 from .views import (
-    home_view, 
+    home_view,
     tweet_action_view,
     tweet_delete_view,
-    tweet_detail_view, 
+    tweet_detail_view,
     tweet_list_view,
     tweet_create_view,
 )
+
 '''
 CLIENT
 Base ENDPOINT /api/tweets/

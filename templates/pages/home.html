@@ -68,7 +68,7 @@ function handleTweetFormError(msg, display){
     }
 }
 
-function handleTweetCreateFormDidSumbit(event) {
+function handleTweetCreateFormDidSubmit(event) {
     event.preventDefault()
     const myForm = event.target
     const myFormData = new FormData(myForm)
@@ -120,7 +120,7 @@ function handleTweetCreateFormDidSumbit(event) {
     xhr.send(myFormData)
 }
 const tweetCreateFormEl = document.getElementById("tweet-create-form")
-tweetCreateFormEl.addEventListener("submit", handleTweetCreateFormDidSumbit)
+tweetCreateFormEl.addEventListener("submit", handleTweetCreateFormDidSubmit)
 
 
 const tweetsContainerElement = document.getElementById("tweets")
