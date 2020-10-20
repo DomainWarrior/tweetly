@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en">
-  <head>
+{% block head %}
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,9 +13,10 @@
       }
     </style>
     <title>Tweetly {% block head_title %}{% endblock head_title%}</title>
-  </head>
-  <body>
+{% endblock head %}
+{% block noscript %}
     <noscript>You need to enable JavaScript to run this app.</noscript>
+{% endblock noscript %}
     {% include "components/navbar.html" %}
     <div class='container'>
       {% block content %}
@@ -24,5 +24,3 @@
     </div>
     {% include 'react/base_embed.html' %}
     {% include 'react/js.html' %}
-  </body>
-</html>

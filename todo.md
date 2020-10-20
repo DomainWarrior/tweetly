@@ -3,7 +3,8 @@ Debugging todo!
     -> Find the usestate empty clause and fix the 
     constant fetch of url (api/tweets)
      -> find the backendLookup variables and double check
-    
+    -> fix react
+    -> fix the tweet id url on view button
     
    Short term todos
 Tweets

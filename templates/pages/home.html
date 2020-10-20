@@ -20,7 +20,7 @@ this is amazing!!!!
 
 <div class='row mb-3 d-none'>
     <div class='col-md-4 mx-auto col-10'>
-        <form class='form' id='tweet-create-form' method='POST' action='/create-tweet'>
+        <form class='form' id='tweet-create-form' method='POST' action="/create-tweet">
             {% csrf_token %}
             <div class='d-none alert alert-danger' id='tweet-create-form-error'></div>
             <input type='hidden' value='/' name='next' />
@@ -192,15 +192,14 @@ function LikeBtn(tweet) {
 
 function formatTweetElement(tweet) {
     var formattedTweet = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id='tweet-" + tweet.id
-    + "'><p>" + tweet.content +
-        "</p><div class='btn-group'>" +
+    + ">" + tweet.content +
+        "<div class='btn-group'>" +
             LikeBtn(tweet) +
             UnLikeBtn(tweet) +
             RetweetBtn(tweet) +
         "</div></div>"
     return formattedTweet
 }
-
 
 
 </script>
