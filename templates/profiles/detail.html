@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div id='tweetly'
-     data-username="{{ profile_username }}"
-     data-can-tweet="false"></div>
 
+<div class="tweetly-profile-badge" data-username="{{ username }}" ></div>
+
+<div id='tweetly'
+data-username="{{ username }}"
+data-can-tweet="false"></div>
 {% endblock content %}
