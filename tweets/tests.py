@@ -38,7 +38,7 @@ class TweetTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
-    def test_tweet_list(self):
+    def test_tweet_Detail_list(self):
         client = self.get_client()
         response = client.get("/api/tweets/")
         self.assertEqual(response.status_code, 200)

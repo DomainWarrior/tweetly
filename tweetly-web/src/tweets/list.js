@@ -5,6 +5,7 @@ import {Tweet} from "./details";
 export function TweetsList(props) {
     const [tweetsInit, setTweetsInit] = useState([])
     const [tweets, setTweets] = useState([])
+    const [nextUrl, setNextUrl] = useState(null)
     const [tweetsDidSet, setTweetsDidSet] = useState(false)
     useEffect(() => {
         const final = [...props.newTweets].concat(tweetsInit)
@@ -17,7 +18,8 @@ export function TweetsList(props) {
         if (tweetsDidSet === false) {
             const handleTweetListLookup = (response, status) => {
                 if (status === 200) {
-                    setTweetsInit(response)
+                    setNextUrl(response.next)
+                    setTweetsInit(response.results)
                     setTweetsDidSet(true)
                 } else {
                     alert("There was an error")
@@ -26,7 +28,7 @@ export function TweetsList(props) {
             apiTweetList(props.username, handleTweetListLookup)
         }
     }, [tweetsInit, tweetsDidSet, setTweetsDidSet, props.username])
-   const handleDidRetweet = (newTweet) => {
+    const handleDidRetweet = (newTweet) => {
         const updateTweetsInit = [...tweetsInit]
         updateTweetsInit.unshift(newTweet)
         setTweetsInit(updateTweetsInit)
@@ -34,11 +36,29 @@ export function TweetsList(props) {
         updateFinalTweets.unshift(tweets)
         setTweets(updateFinalTweets)
     }
-    return tweets.map((item, index)=>{
+    const handleLoadNext = (event) => {
+        event.preventDefault()
+        if (nextUrl !== null) {
+            const handleLoadNextResponse = (response, status) => {
+                if (status === 200){
+                    setNextUrl(response.next)
+                    const newTweets = [...tweets].concat(response.results)
+                    setTweetsInit(newTweets)
+                    setTweets(newTweets)
+            } else {
+                    alert("There is not more to load.")
+                }
+        }
+        apiTweetList(props.username, handleLoadNextResponse, nextUrl)
+    }
+}
+    return <React.Fragment>{tweets.map((item, index)=>{
       return <Tweet
           tweet={item}
           didRetweet={handleDidRetweet}
           className='my-5 py-5 border bg-white text-dark'
           key={`${index}-{item.id}`} />
-    })
+    })}
+        { nextUrl !== null && <button onClick={handleLoadNext} className='btn btn-outline-primary'>Load Next</button>}
+    </React.Fragment>
   }
